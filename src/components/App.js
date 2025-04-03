@@ -9,6 +9,9 @@ function App() {
       <header className="App-header">
         <Banner />
       </header>
+      <main className="App-main">
+        <Feed />
+      </main>
       <div className="App-footer">
         <Footer/>
       </div>
