@@ -1,12 +1,12 @@
-import '../styles/Banner.css'
+import '../styles/Banner.css' 
 import logo from '../assets/logo_lp.png'
 
 function Banner() {
     const title= 'B2LP - Le Blog !'
     return (
-    <div className='lp-banner'>
+    <div>
         <img src = {logo} alt = 'Lyon Palme' className='lp-logo' />
-        <h1 className='lp-title'>{title}</h1>
+        <h1>{title}</h1>
     </div>)
 }
 
