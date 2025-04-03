@@ -1,0 +1,11 @@
+.post-link {
+    color: darkviolet; /* Définit la couleur du texte en violet */
+    text-decoration: none; /* Supprime le soulignement */
+    display: inline-block; /* Permet d'appliquer des marges verticales */
+    margin-bottom: 30px; /* Ajoute un espace au-dessus du lien */
+}
+  
+  .post-link:hover {
+    text-decoration: underline; /* Ajoute un soulignement au survol */
+    color: violet; /* Change la couleur au survol */
+  }
