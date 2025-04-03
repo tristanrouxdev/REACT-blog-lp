@@ -1,7 +1,7 @@
 import logo from '../assets/icon-react.png'
 
 function Footer() {
-	const text = 'Proudly powered by SIO 2 '
+	const text = 'Proudly powered by SIO 2 ©2025'
 	return (
 		<footer>
 			<div>
