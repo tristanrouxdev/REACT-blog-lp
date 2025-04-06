@@ -1,0 +1,9 @@
+.comment-date {
+    color: darkviolet; /* Violet foncé pour la date */
+    font-weight: bold; /* Optionnel : met la date en gras */
+  }
+  
+  .comment-author {
+    color: turquoise; /* Bleu turquoise pour l'auteur */
+    font-style: italic; /* Optionnel : met le nom en italique */
+  }
