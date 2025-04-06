@@ -1,9 +1,10 @@
+import '../styles/Comment.css'
 
 function Comment({ date, author, comment }) {
   return (
     <li>
-        <p>{date}</p>
-        <span>{author}</span>
+        <span className="comment-date">le {date}</span>, 
+        <span className="comment-author"> par : {author}</span>
         <p>{comment}</p>
     </li>
   );

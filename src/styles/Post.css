@@ -3,6 +3,7 @@
     text-decoration: none; /* Supprime le soulignement */
     display: inline-block; /* Permet d'appliquer des marges verticales */
     margin-bottom: 30px; /* Ajoute un espace au-dessus du lien */
+    font-weight: bold;
 }
   
   .post-link:hover {

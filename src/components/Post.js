@@ -25,9 +25,14 @@ function Post({ date, title, content, comments }) {
         <div className="post-comments">
           <h3>Commentaires</h3>
           <ul>
-            {Object.entries(comments).map(([id, { date, author, content }]) => (
-              <Comment key={id} date={date} author={author} content={content} />
-            ))}
+              {comments.map((comment) => (
+                    <Comment
+                        key={comment.id}
+                        date={comment.Date}
+                        author={comment.Auteur}
+                        comment={comment.Contenu}
+                    />
+              ))}
           </ul>
         </div>
       )}
