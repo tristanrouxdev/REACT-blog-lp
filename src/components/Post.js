@@ -1,6 +1,9 @@
 import '../styles/Post.css'
+import { useState } from 'react';
+import Comment from './Comment'
 
 function Post({  date, title, content, comments } ) {
+    const [showComments, setShowComments] = useState(false);
     const hasComments = comments && Object.keys(comments).length > 0;
   return (
     <li>
