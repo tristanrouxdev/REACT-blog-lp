@@ -1,12 +1,47 @@
-.post-link {
-    color: darkviolet; /* Définit la couleur du texte en violet */
-    text-decoration: none; /* Supprime le soulignement */
-    display: inline-block; /* Permet d'appliquer des marges verticales */
-    margin-bottom: 30px; /* Ajoute un espace au-dessus du lien */
-    font-weight: bold;
+.post {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background-color: #fafafa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
-  
-  .post-link:hover {
-    text-decoration: underline; /* Ajoute un soulignement au survol */
-    color: violet; /* Change la couleur au survol */
-  }
+
+.post h2 {
+  margin-top: 0;
+  color: darkviolet;
+}
+
+.post-date {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.comments-section {
+  margin-top: 20px;
+}
+
+.comments-section button {
+  background-color: darkviolet;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.comments-section button:hover {
+  background-color: violet;
+}
+
+.comment {
+  border-top: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.comment p {
+  margin: 4px 0;
+}
