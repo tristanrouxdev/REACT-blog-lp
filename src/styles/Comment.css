@@ -7,3 +7,11 @@
     color: turquoise; /* Bleu turquoise pour l'auteur */
     font-style: italic; /* Optionnel : met le nom en italique */
   }
+
+  .comment {
+  background-color: white;
+  color: #333;             /* texte bien visible */
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}

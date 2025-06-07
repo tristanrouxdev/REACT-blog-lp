@@ -1,11 +1,14 @@
-import '../styles/Comment.css'
+// src/components/Comment.js
+import React from 'react';
+import '../styles/Comment.css';
 
-function Comment({ date, author, comment }) {
+export default function Comment({ date, author, comment }) {
   return (
     <div className="comment">
-      <p><strong>{author}</strong> le <em>{date}</em></p>
       <p>{comment}</p>
+      <footer>
+        <span>{author}</span> – <time>{date}</time>
+      </footer>
     </div>
   );
 }
-export default Comment

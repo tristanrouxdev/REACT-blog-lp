@@ -1,81 +1,81 @@
-import { useState } from 'react';
+// src/components/Post.js
+import React, { useState } from 'react';
 import Comment from './Comment';
 import '../styles/Post.css';
-import { apiFetch } from '../api';
 
-function Post({ id, date, title, content, comments, user }) {
-  const [showComments, setShowComments] = useState(false);
-  const [commentText, setCommentText] = useState('');
-  const [confirmation, setConfirmation] = useState('');
+export default function Post({ id, date, title, content, comments = [], user }) {
+  const [showComments, setShowComments]   = useState(false);
+  const [newComment, setNewComment]       = useState('');
+  const [msg, setMsg]                     = useState('');
+  const [commentList, setCommentList]     = useState(comments);
 
-  const toggleComments = () => {
-    setShowComments(!showComments);
-  };
+  const toggle = () => setShowComments(v => !v);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
-
-    try {
-      await apiFetch('/commentaires', {
-        method: 'POST',
-        body: JSON.stringify({
-          com_date: new Date().toISOString().slice(0, 10),
-          com_contenu: commentText,
-          billet_id: id,
-          user_id: user.id,
-        }),
-      });
-
-      setConfirmation('Commentaire envoyé !');
-      setCommentText('');
-    } catch (error) {
-      setConfirmation(`Erreur : ${error.message}`);
-      console.error(error);
+    if (!user) {
+      setMsg('Veuillez vous connecter.');
+      return;
     }
+    console.log('📢 je poste un commentaire sur le billet', id);
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/commentaires`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        billet_id: id,
+        COM_CONTENU: newComment,
+        COM_DATE: new Date().toISOString().split('T')[0],
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      setMsg(`Erreur : ${err.message||res.statusText}`);
+      return;
+    }
+    const created = await res.json();
+    console.log('🚀 raw API response after POST:', created);
+
+    setCommentList(list => [...list, created]);
+    setMsg('Commentaire envoyé !');
+    setNewComment('');
   };
 
   return (
-    <li className="post">
-      <h2>{title}</h2>
-      <p className="post-date">{date}</p>
-      <p>{content}</p>
+    <li className="post-item">
+      <article onClick={toggle} style={{ cursor: 'pointer' }}>
+        <h3>{title}</h3>
+        <time>{date}</time>
+        <p>{content}</p>
+      </article>
 
-      {comments && comments.length > 0 && (
+      {showComments && (
         <div className="comments-section">
-          <button onClick={toggleComments}>
-            {showComments ? 'Masquer les commentaires' : 'Afficher les commentaires'}
-          </button>
+          {commentList.map(c => (
+            <Comment
+              key={c.id}
+              date={c.COM_DATE}
+              author={c.user?.name ?? 'Anonyme'}
+              comment={c.COM_CONTENU}
+            />
+          ))}
 
-          {showComments && (
-            <div className="comments">
-              {comments.map((comment) => (
-                <Comment
-                  key={comment.id}
-                  date={comment.Date}
-                  author={comment.Auteur}
-                  comment={comment.Contenu}
-                />
-              ))}
-            </div>
-          )}
+          <form onSubmit={handleSubmit} className="comment-form">
+            <textarea
+              placeholder="Votre commentaire"
+              value={newComment}
+              onChange={e => setNewComment(e.target.value)}
+              required
+            />
+            <button type="submit">Envoyer</button>
+          </form>
+
+          {msg && <p className="confirmation-message">{msg}</p>}
         </div>
-      )}
-
-      {user && (
-        <form onSubmit={handleSubmit} className="comment-form">
-          <h4>Ajouter un commentaire</h4>
-          <textarea
-            placeholder="Votre commentaire"
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            required
-          />
-          <button type="submit">Envoyer</button>
-          {confirmation && <p className="confirmation-message">{confirmation}</p>}
-        </form>
       )}
     </li>
   );
 }
-
-export default Post;

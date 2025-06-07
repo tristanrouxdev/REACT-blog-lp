@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// src/App.js
+import { useState, useEffect } from 'react';
 import '../styles/App.css';
 import Banner from './Banner';
 import Feed from './Feed';
@@ -6,41 +7,54 @@ import Footer from './Footer';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
-
 function App() {
   const [user, setUser] = useState(null);
-  const [formMode, setFormMode] = useState(null); // 'login' ou 'register'
+  const [formMode, setFormMode] = useState(null);
 
-  const handleLogin = (data) => {
-    setUser(data); // Tu peux adapter selon ce que renvoie ton API
-    setFormMode(null); // Revenir à l’état neutre
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetch(`${process.env.REACT_APP_API_URL}/user`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('Non autorisé');
+          return res.json();
+        })
+        .then(data => setUser(data))
+        .catch(() => localStorage.removeItem('token'));
+    }
+  }, []);
+
+  const handleLogin = (accessToken, userData) => {
+    localStorage.setItem('token', accessToken);
+    setUser(userData);
+    setFormMode(null);
   };
 
-  const handleLogout = () => setUser(null);
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <Banner />
-
-        <div className="login-area">
-          {!user ? (
-            <>
-              <div>
-                <button onClick={() => setFormMode('login')}>Se connecter</button>
-                <button onClick={() => setFormMode('register')}>S’inscrire</button>
-              </div>
-
-              {formMode === 'login' && <LoginForm onLogin={handleLogin} />}
-              {formMode === 'register' && <RegisterForm onRegister={handleLogin} />}
-            </>
-          ) : (
-            <>
-              <p>Connecté en tant que : {user.nom}</p>
-              <button onClick={handleLogout}>Se déconnecter</button>
-            </>
-          )}
-        </div>
+        <h2>B2LP - Le Blog !</h2>
+        {!user ? (
+          <>
+            <button onClick={() => setFormMode('login')}>Se connecter</button>
+            <button onClick={() => setFormMode('register')}>S'inscrire</button>
+            {formMode === 'login' && <LoginForm onLogin={handleLogin} />}
+            {formMode === 'register' && <RegisterForm onRegister={handleLogin} />}
+          </>
+        ) : (
+          <div>
+            Connecté en tant que {user.name || user.nom}
+            <button onClick={handleLogout}>Se déconnecter</button>
+          </div>
+        )}
       </header>
 
       <main className="App-main">
@@ -53,5 +67,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
-// App.js
