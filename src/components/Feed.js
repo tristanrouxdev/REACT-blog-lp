@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Post from './Post';
 
-function Feed() {
+function Feed({ user }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,6 +13,7 @@ function Feed() {
           throw new Error('Erreur lors du chargement des billets');
         }
         const data = await response.json();
+        console.log('Données reçues :', data);
         setPosts(data);
       } catch (error) {
         console.error('Erreur :', error);
@@ -39,6 +40,7 @@ function Feed() {
             title={post.Titre}
             content={post.Contenu}
             comments={post.Commentaires}
+            user={user}
           />
         ))}
       </ul>

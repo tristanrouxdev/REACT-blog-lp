@@ -2,14 +2,14 @@
   font-family: Arial, sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #f9f9f9;
+  background-color: #f0a8d2;
   margin: 0;
   padding: 0;
 }
 
 .App-header {
-  background-color: #fbeaf4;
-  color: rgb(121, 8, 138);
+  background-color: #f0a8d2;
+  color: rgb(235, 136, 250);
   padding: 20px;
   text-align: center;
 }
@@ -18,7 +18,7 @@
   max-width: 800px;
   margin: 20px auto; /* Centre le contenu principal */
   padding: 20px;
-  background: white;
+  background: f0a8d2;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
@@ -26,7 +26,14 @@
 .App-footer {
   text-align: center;
   padding: 10px;
-  background-color: #fbeaf4;
+  background-color: #f0a8d2;
   color: rgb(121, 8, 138);
   margin-top: 20px;
+}
+
+.App-header h1{
+  color: rgb(66, 231, 214);
+}
+.App-header h3 {
+  color: rgb(66, 231, 214) !important;
 }
