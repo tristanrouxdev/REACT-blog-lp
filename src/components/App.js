@@ -41,7 +41,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Banner />
-        <h2>B2LP - Le Blog !</h2>
         {!user ? (
           <>
             <button onClick={() => setFormMode('login')}>Se connecter</button>

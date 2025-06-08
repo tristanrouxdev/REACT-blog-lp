@@ -9,8 +9,9 @@
 
 .App-header {
   background-color: #f0a8d2;
-  color: rgb(235, 136, 250);
+  color: rgb(66, 231, 214);
   padding: 20px;
+  
   text-align: center;
 }
 
@@ -18,9 +19,9 @@
   max-width: 800px;
   margin: 20px auto; /* Centre le contenu principal */
   padding: 20px;
-  background: f0a8d2;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  background-color: #fff;
 }
 
 .App-footer {
