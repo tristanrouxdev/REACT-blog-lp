@@ -34,8 +34,7 @@ export default function Feed({ user }) {
           date={post.Date ?? post.date}
           title={post.Titre ?? post.title}
           content={post.Contenu ?? post.content}
-          // on ne passe JAMAIS les commentaires initiaux
-          comments={[]}
+          comments={post.commentaires}
           user={user}
         />
       ))}

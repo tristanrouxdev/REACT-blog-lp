@@ -11,20 +11,20 @@ function App() {
   const [user, setUser] = useState(null);
   const [formMode, setFormMode] = useState(null);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      fetch(`${process.env.REACT_APP_API_URL}/user`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then(res => {
-          if (!res.ok) throw new Error('Non autorisé');
-          return res.json();
-        })
-        .then(data => setUser(data))
-        .catch(() => localStorage.removeItem('token'));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     fetch(`${process.env.REACT_APP_API_URL}/user`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     })
+  //       .then(res => {
+  //         if (!res.ok) throw new Error('Non autorisé');
+  //         return res.json();
+  //       })
+  //       .then(data => setUser(data))
+  //       .catch(() => localStorage.removeItem('token'));
+  //   }
+  // }, []);
 
   const handleLogin = (accessToken, userData) => {
     localStorage.setItem('token', accessToken);
