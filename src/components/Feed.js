@@ -1,38 +1,47 @@
 // src/components/Feed.js
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Post from './Post';
 
 export default function Feed({ user }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/billets`)
-      .then(res => res.json())
-      .then(json => {
-        console.log('Réponse brute API →', json);
-        // si json.data existe, on prend ça, sinon on prend json directement
-        const list = Array.isArray(json) ? json : (json.data || []);
+    async function fetchBillets() {
+      try {
+        const res = await fetch(`${API_URL}/billets`);
+        if (!res.ok) {
+          throw new Error(`Erreur chargement billets: ${res.statusText}`);
+        }
+        const json = await res.json();
+        console.log('💬 Réponse brute /billets:', json);
+        // On attend que json.data soit bien un tableau
+        const list = Array.isArray(json.data) ? json.data : [];
         setPosts(list);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchBillets();
+  }, [API_URL]);
 
-  if (loading) return <p>Chargement…</p>;
+  if (loading) return <p>Chargement des billets...</p>;
 
   return (
     <ul className="feed-list">
       {posts.map(post => (
         <Post
-          key={post.id}
-          id={post.id}
-          date={post.Date}
-          title={post.Titre}
-          content={post.Contenu}
-          comments={post.Commentaires}
-          user={user}
-        />
+         key={post.id}            // ta vraie PK non-nulle
+         id={post.id}             // on passe billet_id en id pour Post
+         date={post.date}                // champ 'date' (minuscule)
+         title={post.title}              // champ 'title'
+         content={post.content}          // champ 'content'
+         comments={post.commentaires}    // champ 'commentaires'
+         user={user}
+       />
       ))}
     </ul>
   );

@@ -4,44 +4,68 @@ import Comment from './Comment';
 import '../styles/Post.css';
 
 export default function Post({ id, date, title, content, comments = [], user }) {
-  const [showComments, setShowComments]   = useState(false);
-  const [newComment, setNewComment]       = useState('');
-  const [msg, setMsg]                     = useState('');
-  const [commentList, setCommentList]     = useState(comments);
+  console.log(
+    'Props normalisées pour Post →',
+    { id, date, title, content, comments, user }
+  );
+
+  const [showComments, setShowComments] = useState(false);
+  const [newComment, setNewComment]     = useState('');
+  const [msg, setMsg]                   = useState('');
+  const [commentList, setCommentList]   = useState(comments);
 
   const toggle = () => setShowComments(v => !v);
 
   const handleSubmit = async e => {
     e.preventDefault();
+
     if (!user) {
       setMsg('Veuillez vous connecter.');
       return;
     }
-    console.log('📢 je poste un commentaire sur le billet', id);
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/commentaires`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({
-        billet_id: id,
-        COM_CONTENU: newComment,
-        COM_DATE: new Date().toISOString().split('T')[0],
-      }),
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      setMsg(`Erreur : ${err.message||res.statusText}`);
-      return;
-    }
-    const created = await res.json();
-    console.log('🚀 raw API response after POST:', created);
 
-    setCommentList(list => [...list, created]);
-    setMsg('Commentaire envoyé !');
-    setNewComment('');
+    console.log('📢 je poste un commentaire sur le billet', id);
+
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/commentaires`,
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({
+            billet_id:  id,
+            COM_CONTENU: newComment,
+            COM_DATE:   new Date().toISOString().split('T')[0],
+          }),
+        }
+      );
+
+      // on récupère l'enveloppe de la Resource
+      const json = await res.json();
+
+      if (!res.ok) {
+        // json.message contient l'erreur de validation ou le message du serveur
+        throw new Error(json.message || res.statusText);
+      }
+
+      console.log('🚀 raw API response after POST →', json);
+
+      // json.data est le vrai commentaire créé
+      const created = json.data;
+
+      // on l'ajoute à la liste
+      setCommentList(prev => [...prev, created]);
+
+      setMsg('Commentaire envoyé !');
+      setNewComment('');
+    } catch (err) {
+      console.error(err);
+      setMsg(`Erreur : ${err.message}`);
+    }
   };
 
   return (
