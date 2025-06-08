@@ -1,9 +1,8 @@
-// src/components/Feed.js
 import React, { useState, useEffect } from 'react';
 import Post from './Post';
 
 export default function Feed({ user }) {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts]     = useState([]);
   const [loading, setLoading] = useState(true);
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -11,14 +10,10 @@ export default function Feed({ user }) {
     async function fetchBillets() {
       try {
         const res = await fetch(`${API_URL}/billets`);
-        if (!res.ok) {
-          throw new Error(`Erreur chargement billets: ${res.statusText}`);
-        }
+        if (!res.ok) throw new Error(res.statusText);
         const json = await res.json();
-        console.log('💬 Réponse brute /billets:', json);
-        // On attend que json.data soit bien un tableau
-        const list = Array.isArray(json.data) ? json.data : [];
-        setPosts(list);
+        // on prend json.data tel quel, sans commentaires
+        setPosts(Array.isArray(json.data) ? json.data : []);
       } catch (err) {
         console.error(err);
       } finally {
@@ -34,14 +29,15 @@ export default function Feed({ user }) {
     <ul className="feed-list">
       {posts.map(post => (
         <Post
-         key={post.id}            // ta vraie PK non-nulle
-         id={post.id}             // on passe billet_id en id pour Post
-         date={post.date}                // champ 'date' (minuscule)
-         title={post.title}              // champ 'title'
-         content={post.content}          // champ 'content'
-         comments={post.commentaires}    // champ 'commentaires'
-         user={user}
-       />
+          key={post.billet_id ?? post.id}
+          id={post.billet_id ?? post.id}
+          date={post.Date ?? post.date}
+          title={post.Titre ?? post.title}
+          content={post.Contenu ?? post.content}
+          // on ne passe JAMAIS les commentaires initiaux
+          comments={[]}
+          user={user}
+        />
       ))}
     </ul>
   );

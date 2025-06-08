@@ -1,31 +1,21 @@
-// src/components/Post.js
 import React, { useState } from 'react';
 import Comment from './Comment';
 import '../styles/Post.css';
 
 export default function Post({ id, date, title, content, comments = [], user }) {
-  console.log(
-    'Props normalisées pour Post →',
-    { id, date, title, content, comments, user }
-  );
-
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment]     = useState('');
   const [msg, setMsg]                   = useState('');
-  const [commentList, setCommentList]   = useState(comments);
+  const [commentList, setCommentList]   = useState([]); // <-- vide au départ
 
   const toggle = () => setShowComments(v => !v);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!user) {
       setMsg('Veuillez vous connecter.');
       return;
     }
-
-    console.log('📢 je poste un commentaire sur le billet', id);
-
     try {
       const res = await fetch(
         `${process.env.REACT_APP_API_URL}/commentaires`,
@@ -43,23 +33,11 @@ export default function Post({ id, date, title, content, comments = [], user }) 
           }),
         }
       );
-
-      // on récupère l'enveloppe de la Resource
       const json = await res.json();
+      if (!res.ok) throw new Error(json.message || res.statusText);
 
-      if (!res.ok) {
-        // json.message contient l'erreur de validation ou le message du serveur
-        throw new Error(json.message || res.statusText);
-      }
-
-      console.log('🚀 raw API response after POST →', json);
-
-      // json.data est le vrai commentaire créé
-      const created = json.data;
-
-      // on l'ajoute à la liste
-      setCommentList(prev => [...prev, created]);
-
+      // `json.data` contient le nouveau commentaire
+      setCommentList(prev => [...prev, json.data]);
       setMsg('Commentaire envoyé !');
       setNewComment('');
     } catch (err) {
