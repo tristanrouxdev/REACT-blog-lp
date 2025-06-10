@@ -6,7 +6,7 @@ Ce dépôt contient l’interface React du blog **B2LP**, qui consomme l’API L
 
 ## Prérequis
 
-- **Node.js** ≥ 16 et **npm** (ou **yarn**)  
+- **Node.js** et **npm**
 - L’API Laravel doit être démarrée et accessible à l’URL renseignée dans la configuration (voir ci-dessous).
 
 ---
