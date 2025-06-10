@@ -22,8 +22,6 @@ Ce dépôt contient l’interface React du blog **B2LP**, qui consomme l’API L
 2. **Installer les dépendances**  
    ```bash
    npm install
-   # ou
-   yarn install
    ```
 
 3. **Copier le fichier d’environnement**  
@@ -41,8 +39,6 @@ Ce dépôt contient l’interface React du blog **B2LP**, qui consomme l’API L
 5. **Démarrer le serveur de développement**  
    ```bash
    npm start
-   # ou
-   yarn start
    ```
    L’application s’ouvre automatiquement sur `http://localhost:3000`.
 
@@ -50,13 +46,13 @@ Ce dépôt contient l’interface React du blog **B2LP**, qui consomme l’API L
 
 ## Scripts disponibles
 
-- **`npm start`** / **`yarn start`**  
+- **`npm start`**
   Lance l’app en mode développement (Hot Reload).
 
-- **`npm run build`** / **`yarn build`**  
+- **`npm run build`**
   Génère la version de production dans le dossier `build/`.
 
-- **`npm test`** / **`yarn test`**  
+- **`npm test`**
   Lance les tests (si tu en ajoutes).
 
 ---
