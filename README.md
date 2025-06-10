@@ -15,7 +15,7 @@ Ce dépôt contient l’interface React du blog **B2LP**, qui consomme l’API L
 
 1. **Cloner le repo**  
    ```bash
-   git clone <URL_DE_TON_REPO_REACT>
+   git clone https://github.com/tristanrouxdev/REACT-blog-lp.git
    cd REACT-blog-lp
    ```
 
